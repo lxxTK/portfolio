@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- ทำให้เว็บ Responsive บนมือถือ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tuktik - Bootstrap Portfolio</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome (สำหรับใส่ไอคอน) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ธีมของเว็บ */
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+        color: white;
+      }
+
+      /* โลโก้ Navbar */
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: #b74b4b !important;
+        text-shadow: 0 0 10px #b74b4b;
+      }
+
+      /* เมนู Navbar */
+      .navbar-dark .navbar-nav .nav-link {
+        color: white !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      /* เปลี่ยนสีเมื่อ Hover */
+      .navbar-dark .navbar-nav .nav-link:hover {
+        color: #b74b4b !important;
+      }
+
+      /* เส้นใต้ตอน hover เมนู */
+      .navbar-dark .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 50%;
+        background-color: #b74b4b;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .navbar-dark .navbar-nav .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* ส่วน Hero (หน้าหลัก) */
+      .hero-section {
+        min-height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+        display: flex;
+        align-items: center;
+      }
+
+      /* ชื่อใหญ่ใน Hero */
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      /* คำบรรยายใน Hero */
+      .hero-subtitle {
+        font-size: 1.5rem;
+        color: #b74b4b;
+        margin-bottom: 2rem;
+      }
+
+      /* รูปโปรไฟล์ */
+      .profile-img {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%; /* ทำให้เป็นวงกลม */
+        object-fit: cover;
+        border: 5px solid #b74b4b;
+        box-shadow: 0 0 30px rgba(183, 75, 75, 0.5);
+        transition: transform 0.3s ease;
+      }
+      .profile-img:hover {
+        transform: scale(1.05); /* ขยายเวลาเอาเมาส์ชี้ */
+      }
+
+      /* ส่วน Carousel (สไลด์รูป) */
+      .carousel-item img {
+        height: 400px;
+        object-fit: cover; /* ครอบรูปให้เต็ม */
+        border-radius: 15px;
+      }
+
+      /* ปุ่มให้กดไปหน้าถัดไป */
+      .carousel-control-prev,
+      .carousel-control-next {
+        width: 5%;
+      }
+
+      .carousel-indicators [data-bs-target] {
+        background-color: #b74b4b; /* จุดบอกสไลด์ว่าหน้าไหนสีแดง */
+      }
+
+      /* หัวข้อแต่ละ Section */
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #b74b4b;
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      /* ทำเส้นคั่นตกแต่งใต้หัวข้อ */
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background: #b74b4b;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* การ์ดโปร่งใส */
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(183, 75, 75, 0.3);
+      }
+
+      .card,
+      .card * {
+        color: #171717;
+      }
+
+      /* แถบแสดงskill */
+      .skill-bar {
+        background: rgba(255, 255, 255, 0.1);
+        height: 30px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+
+      /* แถบแสดงสกิล (progress bar) */
+      .skill-progress {
+        height: 100%;
+        background: linear-gradient(90deg, #b74b4b, #ff6b6b);
+        border-radius: 15px;
+        transition: width 2s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+      }
+
+      .footer {
+        background: #b74b4b;
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: 5rem;
+      }
+
+      /* ไอคอนโซเชียล */
+      .social-icons a {
+        color: white;
+        font-size: 1.5rem;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+      }
+
+      /* ไอคอนโซเชียล ver hover */
+      .social-icons a:hover {
+        color: #b74b4b;
+        transform: translateY(-3px);
+      }
+
+      /* ปรับขนาดเมื่อหน้าจอเล็ก (มือถือ) */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .profile-img {
+          width: 250px;
+          height: 250px;
+        }
+
+        .carousel-item img {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar ส่วนบนของเว็บ -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      style="background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px)"
+    >
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#home">
+          <i class="fas fa-code"></i> Tuktik
+        </a>
+
+        <!-- Mobile Toggle (สำหรับมือถือ,แฮมเบอร์เกอร์))-->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Menu (เมนูนำทาง) -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- ลิงก์ไปยังแต่ละ Section -->
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#WorkSkill">Work Skill</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#skills">Skills</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section (หน้าแรก)-->
+    <section id="home" class="hero-section">
+      <div class="container-fluid">
+        <div class="row align-items-center min-vh-100">
+          <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="hero-title">
+              Hi, I'm <span style="color: #b74b4b">Tuktik</span>
+            </h1>
+            <!-- span style = Single Use Case -->
+            <p class="hero-subtitle">UX Research</p>
+            <p class="lead mb-4">
+              Welcome to my digital world! I explore user needs and turn
+              insights into meaningful product experiences.
+            </p>
+            <!-- Bootstrap utility classes -->
+            <a href="#WorkSkill" class="btn btn-outline-light btn-lg me-3"
+              >View Work Skills</a
+            >
+            <a
+              href="#contact"
+              class="btn btn-lg"
+              style="background: #b74b4b; color: white"
+              >Contact Me</a
+            >
+          </div>
+          <div class="col-lg-6 text-center">
+            <img src="mypic.jpg" alt="Profile" class="profile-img" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="card p-4">
+              <div class="card-body">
+                <p
+                  class="lead text-center mb-4"
+                  style="color: rgb(204, 204, 204)"
+                >
+                  I am a third-year student at the College of Social
+                  Communication Innovation, Srinakharinwirot University,
+                  majoring in Computer Innovation for Communication. I am
+                  interested in UX research and user-centered design, with
+                  experience in qualitative research, insight synthesis, and
+                  translating user needs into service and experience design. I
+                  am eager to learn and grow through internship opportunities in
+                  a real product environment.
+                </p>
+                <div class="row text-center">
+                  <div class="col-md-4 mb-3">
+                    <div class="card bg-transparent">
+                      <div class="card-body">
+                        <i
+                          class="fas fa-search fa-3x mb-3"
+                          style="color: #b74b4b"
+                        ></i>
+                        <h5>UX Research</h5>
+                        <p>
+                          Qualitative research, defining research questions, and
+                          understanding user needs.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card bg-transparent">
+                      <div class="card-body">
+                        <i
+                          class="fas fa-users fa-3x mb-3"
+                          style="color: #b74b4b"
+                        ></i>
+                        <h5>User Insights</h5>
+                        <p>
+                          Persona creation, pain point analysis, and insight
+                          synthesis from user research.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card bg-transparent">
+                      <div class="card-body">
+                        <i
+                          class="fas fa-comments fa-3x mb-3"
+                          style="color: #b74b4b"
+                        ></i>
+                        <h5>Research Communication</h5>
+                        <p>
+                          Translating research findings into clear stories to
+                          support design decisions.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects-->
+    <section id="WorkSkill" class="py-5">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="row">
+              <!-- FEMPIRE Project -->
+              <div class="col-lg-10 mx-auto mb-4">
+                <div class="card p-4">
+                  <h4 style="color: #b74b4b">
+                    FEMPIRE – UX Research Project (Group Project)
+                  </h4>
+                  <p class="mb-2"><em>Role: UX Researcher</em></p>
+                  <p class="mt-2">
+                    An academic UX research project focused on understanding
+                    user needs around safety, privacy, and social interaction.
+                  </p>
+                  <ul>
+                    <li>Defined research questions and research scope</li>
+                    <li>Conducted qualitative research and persona creation</li>
+                    <li>Identified user pain points and behavioral patterns</li>
+                    <li>
+                      Synthesized insights into service and experience design
+                      opportunities
+                    </li>
+                    <li>
+                      Communicated findings through journey mapping and value
+                      proposition canvas
+                    </li>
+                  </ul>
+                  <!-- Project Images 1 -->
+                  <h4 style="color: #b74b4b" class="text-center">
+                    Example Images
+                  </h4>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-6 col-md-3 mb-2">
+                      <img
+                        src="TargetAuience.png"
+                        alt="Target Audience"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                    <div class="col-6 col-md-3 mb-2">
+                      <img
+                        src="PainPoint.png"
+                        alt="Pain Point Analysis"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                    <div class="col-6 col-md-3 mb-2">
+                      <img
+                        src="VPC.png"
+                        alt="Value Proposition Canvas"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                    <div class="col-6 col-md-3 mb-2">
+                      <img
+                        src="ActivitiesSection.png"
+                        alt="Activities Section"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                  <p class="text-center mt-2 small">
+                    Research artifacts including persona, pain point analysis,
+                    and value proposition canvas
+                  </p>
+                </div>
+              </div>
+
+              <!-- Second Project: UX/UI design -->
+              <div class="col-lg-10 mx-auto mb-4">
+                <div class="card p-4">
+                  <h4 style="color: #b74b4b">
+                    Siam Inter Bookstore Application – UX/UI Design Project
+                  </h4>
+                  <p class="mt-2">
+                    A UX/UI design project focused on designing a mobile
+                    application experience for an online bookstore that
+                    previously only had a website.
+                  </p>
+                  <ul>
+                    <li>
+                      Explored user needs and pain points related to browsing
+                      and purchasing books on mobile
+                    </li>
+                    <li>
+                      Defined core features and user flows for a new bookstore
+                      application
+                    </li>
+                    <li>
+                      Designed wireframes, user flows, and interface screens
+                      using Figma
+                    </li>
+                    <li>
+                      Applied user-centered design principles to ensure clarity
+                      and ease of use
+                    </li>
+                  </ul>
+                  <!-- Project Images 2 -->
+                  <h4 style="color: #b74b4b" class="text-center">
+                    Example Images
+                  </h4>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-6 col-md-6 mb-2">
+                      <img
+                        src="DesignAppsiamintershop.png"
+                        alt="Design App Siam Inter Shop"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                    <div class="col-6 col-md-6 mb-2">
+                      <img
+                        src="DesignAppsiamintershopComponent.png"
+                        alt="Design App Siam Inter Shop Component"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-6 col-md-6 mb-2">
+                      <img
+                        src="EXrun.png"
+                        alt="Example Run in Iphone"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                  <p class="text-center mt-2 small">
+                    Mobile application UX/UI design showcasing user flows, key
+                    screens, and interface components
+                  </p>
+                </div>
+              </div>
+
+              <!-- third Project: activity -->
+              <div class="col-lg-10 mx-auto mb-4">
+                <div class="card p-4">
+                  <h4 style="color: #b74b4b">
+                    Student Assistant – SWU Open House
+                  </h4>
+                  <p class="mt-2">
+                    An activity focused on supporting event operations and
+                    engaging with visitors during the university open house.
+                  </p>
+                  <ul>
+                    <li>
+                      Served as an on-site guide, welcoming, engaging, and
+                      inviting visitors at the event
+                    </li>
+                    <li>
+                      Assisted in booth setup and preparation prior to the event
+                    </li>
+                    <li>
+                      Provided information and guidance to visitors throughout
+                      the event
+                    </li>
+                    <li>
+                      Demonstrated strong communication, teamwork, and
+                      responsibility skills
+                    </li>
+                  </ul>
+                  <!-- Project Images 3 -->
+                  <h4 style="color: #b74b4b" class="text-center">
+                    Example Images
+                  </h4>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-6 col-md-6 mb-2">
+                      <img
+                        src="SWUOPH.png"
+                        alt="swu open house"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                    <div class="col-6 col-md-6 mb-2">
+                      <img
+                        src="SWUOPH2.JPG"
+                        alt="swu open house2"
+                        class="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                  <p class="text-center mt-2 small">
+                    On-site student assistant experience involving visitor
+                    engagement, booth setup, and event support
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-5">
+      <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="card p-4">
+              <!-- UX Research Skills -->
+              <div class="mb-4">
+                <h5 style="color: #b74b4b" class="mb-3">
+                  <i class="fas fa-search me-2"></i>UX Research Skills
+                </h5>
+                <ul class="list-unstyled ms-4">
+                  <li class="mb-2">• Qualitative Research</li>
+                  <li class="mb-2">• Persona & Pain Point Analysis</li>
+                  <li class="mb-2">• Insight Synthesis</li>
+                  <li class="mb-2">• User Journey Mapping</li>
+                  <li class="mb-2">• Research Communication & Storytelling</li>
+                </ul>
+              </div>
+
+              <!-- Design & Research Tools -->
+              <div class="mb-4">
+                <h5 style="color: #b74b4b" class="mb-3">
+                  <i class="fas fa-pencil-ruler me-2"></i>Design & Research
+                  Tools
+                </h5>
+                <ul class="list-unstyled ms-4">
+                  <li class="mb-2">• Figma (Wireframes & Prototypes)</li>
+                  <li class="mb-2">• Usability Principles</li>
+                  <li class="mb-2">• User Flow Design</li>
+                </ul>
+              </div>
+
+              <!-- Technical & Supporting Skills -->
+              <div>
+                <h5 style="color: #b74b4b" class="mb-3">
+                  <i class="fas fa-code me-2"></i>Technical & Supporting Skills
+                </h5>
+                <ul class="list-unstyled ms-4">
+                  <li class="mb-2">• HTML & CSS (Basic)</li>
+                  <li class="mb-2">• SQL (Basic)</li>
+                  <li class="mb-2">• Swift (Basic)</li>
+                  <li class="mb-2">• Power BI (Basic)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="card p-4">
+              <div class="text-center mb-4">
+                <h5 style="color: #b74b4b">Get in Touch</h5>
+                <p class="mt-3">
+                  I am open to internship opportunities, collaborations, and
+                  discussions related to UX research and design.
+                </p>
+              </div>
+
+              <!-- Contact Information -->
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <div class="contact-item mb-3">
+                    <i class="fas fa-envelope me-3" style="color: #b74b4b"></i>
+                    <a
+                      href="mailto:aphinya.paserakang@g.swu.ac.th"
+                      style="color: #171717; text-decoration: none"
+                    >
+                      aphinya.paserakang@g.swu.ac.th
+                    </a>
+                  </div>
+
+                  <div class="contact-item mb-3">
+                    <i class="fab fa-line me-3" style="color: #b74b4b"></i>
+                    <a
+                      href="https://line.me/ti/p/~lovetaenylovelove"
+                      target="_blank"
+                      style="color: #171717; text-decoration: none"
+                    >
+                      lovetaenylovelove
+                    </a>
+                  </div>
+
+                  <div class="contact-item mb-3">
+                    <i class="fab fa-github me-3" style="color: #b74b4b"></i>
+                    <a
+                      href="https://github.com/lxxTK"
+                      target="_blank"
+                      style="color: #171717; text-decoration: none"
+                    >
+                      github.com/lxxTK
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p class="mb-0">
+              &copy; 2025 Created by <strong>Aphinya (Tuktik)</strong> | All
+              Rights Reserved
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- เรียกใช้ Bootstrap JS (carousel, navbar toggle, modal, etc.)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // ทำให้เมนูเลื่อนไปยัง Section ต่างๆ
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // ตั้งค่า Carousel ให้เลื่อนอัตโนมัติ
+      const carousel = new bootstrap.Carousel(
+        document.getElementById("workCarousel"),
+        {
+          interval: 4000,
+          wrap: true,
+        }
+      );
+
+      // เปลี่ยนสี Navbar เวลาเลื่อนจอ
+      window.addEventListener("scroll", function () {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.style.background = "rgba(0,0,0,0.98)";
+        } else {
+          navbar.style.background = "rgba(0,0,0,0.95)";
+        }
+      });
+    </script>
+  </body>
+</html>
